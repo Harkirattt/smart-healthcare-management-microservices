@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.dto.AppointmentDTO;
 import com.example.entity.Appointment;
 import com.example.service.AppointmentService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/appointments")
+@Tag(name="Appointment APIs", description = "Create and Read Appointments")
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
