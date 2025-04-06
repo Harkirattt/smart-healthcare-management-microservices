@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: user_db
+    ports:
+      - "3306:3306"
+    networks:
+      - shms-net
+
+  eureka-server:
+    build: ./eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - shms-net
+
+  api-gateway:
+    build: ./gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+    networks:
+      - shms-net
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - shms-net
+
+  doctor-service:
+    build: ./doctor-service
+    container_name: doctor-service
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - shms-net
+
+  appointment-service:
+    build: ./appointment-service
+    container_name: appointment-service
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - shms-net
+
+  billing-service:
+    build: ./billing-service
+    container_name: billing-service
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - shms-net
+
+networks:
+  shms-net:
+    driver: bridge
