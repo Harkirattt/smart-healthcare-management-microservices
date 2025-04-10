@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:23-jdk
 
 # Copy jar into container
 COPY target/eureka-server-0.0.1-SNAPSHOT.jar app.jar

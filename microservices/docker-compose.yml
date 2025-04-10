@@ -21,15 +21,15 @@ services:
     networks:
       - shms-net
 
-#  gateway:
-#    build: ./gateway
-#    container_name: gateway
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - eureka-server
-#    networks:
-#      - shms-net
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+    networks:
+      - shms-net
 
   user-service:
     build: ./user-service
