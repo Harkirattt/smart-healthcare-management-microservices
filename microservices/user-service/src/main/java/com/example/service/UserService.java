@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+
 public class UserService {
     private final UserRepository userRepository;
 
@@ -18,6 +18,10 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }
 

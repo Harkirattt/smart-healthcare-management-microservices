@@ -35,8 +35,8 @@ public class AppointmentController {
         return appointments.stream().map(appointment -> {
             AppointmentDTO dto = new AppointmentDTO();
             dto.setId(appointment.getId());
-            dto.setDoctorId(appointment.getDoctorId());
-            dto.setPatientId(appointment.getPatientId());
+            dto.setDoctorName(appointment.getDoctorName());
+            dto.setPatientName(appointment.getPatientName());
             dto.setAppointmentDate(appointment.getDate());
             dto.setStatus(appointment.getStatus());
             return dto;

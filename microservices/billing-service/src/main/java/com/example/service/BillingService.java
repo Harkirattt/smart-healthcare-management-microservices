@@ -19,4 +19,8 @@ public class BillingService {
     public List<Billing> getAllInvoices() {
         return billingRepository.findAll();
     }
+
+    public List<Billing> getInvoicesByPatientId(Long patientId) {
+        return billingRepository.findByPatientId(patientId);
+    }
 }

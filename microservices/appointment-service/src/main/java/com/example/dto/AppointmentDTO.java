@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 @Data
 public class AppointmentDTO {
     private Long id;
-    private Long doctorId;
-    private Long patientId;
+    private String doctorName;
+    private String patientName;
     private LocalDateTime appointmentDate;
     private String status;
 }

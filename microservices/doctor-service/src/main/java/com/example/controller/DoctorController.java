@@ -18,6 +18,18 @@ import java.util.List;
 public class DoctorController {
     private final AppointmentClient appointmentClient;
 
+    private final DoctorService doctorService;
+
+    @PostMapping
+    public ResponseEntity<Doctor> createDoctor(@RequestBody Doctor doctor) {
+        return ResponseEntity.ok(doctorService.addDoctor(doctor));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Doctor>> getDocs() {
+        return ResponseEntity.ok(doctorService.getAllDoctors());
+    }
+
     @GetMapping("/{doctorId}/appointments")
     public ResponseEntity<List<AppointmentDTO>> getDoctorAppointments(@PathVariable Long doctorId) {
         return ResponseEntity.ok(appointmentClient.getAppointmentsForDoctor(doctorId));
