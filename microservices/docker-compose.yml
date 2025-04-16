@@ -2,16 +2,57 @@ version: '3.8'
 
 services:
 
-  mysql:
+  mysql-db:
     image: mysql:8
-    container_name: mysql
+    container_name: mysql-db
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: user_db
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - shms-net
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  mysql-billing-db:
+    image: mysql:8
+    container_name: mysql-billing-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: billing_db
+    ports:
+      - "3308:3306"
+    networks:
+      - shms-net
+    volumes:
+      - mysql-billing-data:/var/lib/mysql
+
+  mysql-doctor-db:
+    image: mysql:8
+    container_name: mysql-doctor-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: doctor_db
+    ports:
+      - "3309:3306"
+    networks:
+      - shms-net
+    volumes:
+      - mysql-doctor-data:/var/lib/mysql
+
+  mysql-feedback-db:
+    image: mysql:8
+    container_name: mysql-feedback-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: feedback_db
+    ports:
+      - "3310:3306"
+    networks:
+      - shms-net
+    volumes:
+      - mysql-feedback-data:/var/lib/mysql
 
   eureka-server:
     build: ./eureka-server
@@ -34,8 +75,12 @@ services:
   user-service:
     build: ./user-service
     container_name: user-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/user_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
     depends_on:
-      - mysql
+      - mysql-db
       - eureka-server
     networks:
       - shms-net
@@ -43,8 +88,12 @@ services:
   doctor-service:
     build: ./doctor-service
     container_name: doctor-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-doctor-db:3306/doctor_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
     depends_on:
-      - mysql
+      - mysql-doctor-db
       - eureka-server
     networks:
       - shms-net
@@ -52,8 +101,12 @@ services:
   appointment-service:
     build: ./appointment-service
     container_name: appointment-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/user_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
     depends_on:
-      - mysql
+      - mysql-db
       - eureka-server
     networks:
       - shms-net
@@ -61,12 +114,40 @@ services:
   billing-service:
     build: ./billing-service
     container_name: billing-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-billing-db:3306/billing_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
     depends_on:
-      - mysql
+      - mysql-billing-db
       - eureka-server
     networks:
       - shms-net
 
+  feedback-service:
+    build: ./feedback-service
+    container_name: feedback-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-feedback-db:3306/feedback_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      - mysql-feedback-db
+      - eureka-server
+    networks:
+      - shms-net
+
+
 networks:
   shms-net:
     driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
+  mysql-billing-data:
+    driver: local
+  mysql-doctor-data:
+    driver: local
+  mysql-feedback-data:
+    driver: local
