@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doctor-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: doctor-service
+  template:
+    metadata:
+      labels:
+        app: doctor-service
+    spec:
+      containers:
+        - name: doctor-service
+          image: harkiratt/doctor-service:latest
+          ports:
+            - containerPort: 8083
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: doctor-service
+spec:
+  selector:
+    app: doctor-service
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: 8083

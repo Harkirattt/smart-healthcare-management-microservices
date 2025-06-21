@@ -15,6 +15,7 @@
         <option value="$PROJECT_DIR$/gateway/pom.xml" />
         <option value="$PROJECT_DIR$/ai-response-service/pom.xml" />
         <option value="$PROJECT_DIR$/feedback-service/pom.xml" />
+        <option value="$PROJECT_DIR$/symtoms-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

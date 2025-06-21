@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appointment-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: appointment-service
+  template:
+    metadata:
+      labels:
+        app: appointment-service
+    spec:
+      containers:
+        - name: appointment-service
+          image: harkiratt/doctor-service:latest
+          ports:
+            - containerPort: 8083
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: appointment-service
+spec:
+  selector:
+    app: appointment-service
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082
